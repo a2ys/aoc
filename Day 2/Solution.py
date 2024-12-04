@@ -23,12 +23,24 @@ def check_safe(numbers: list) -> bool:
     return True
 
 
+def check_safe_with_dampener(numbers: list) -> bool:
+    if check_safe(numbers):
+        return True
+
+    for i in range(len(numbers)):
+        modified_numbers = numbers[:i] + numbers[i + 1:]
+        if check_safe(modified_numbers):
+            return True
+
+    return False
+
+
 safe_reports = 0
 
 with open("input.txt", "r") as file:
     for line in file:
         current_line = [int(number) for number in line.split()]
-        if check_safe(current_line):
+        if check_safe_with_dampener(current_line):
             safe_reports += 1
 
 print(safe_reports)
